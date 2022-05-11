@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TracNghiemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="IdAdmin" />
+          </Key>
+          <Property Name="IdAdmin" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="BaiThis">
+          <Key>
+            <PropertyRef Name="IdBaiThi" />
+          </Key>
+          <Property Name="IdBaiThi" Type="int" Nullable="false" />
+          <Property Name="MaDethi" Type="int" />
+          <Property Name="MaHocsinh" Type="int" />
+          <Property Name="TongDiem" Type="int" />
+        </EntityType>
+        <EntityType Name="CauHois">
+          <Key>
+            <PropertyRef Name="IdCauHoi" />
+          </Key>
+          <Property Name="IdCauHoi" Type="int" Nullable="false" />
+          <Property Name="TittleQuestion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Answer" Type="nchar" MaxLength="10" />
+          <Property Name="A" Type="nvarchar" MaxLength="50" />
+          <Property Name="B" Type="nvarchar" MaxLength="50" />
+          <Property Name="C" Type="nvarchar" MaxLength="50" />
+          <Property Name="D" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaMonHoc" Type="int" />
+          <Property Name="MaGV" Type="int" />
+        </EntityType>
+        <EntityType Name="DeThis">
+          <Key>
+            <PropertyRef Name="IdDeThi" />
+          </Key>
+          <Property Name="IdDeThi" Type="int" Nullable="false" />
+          <Property Name="MaCauHoi" Type="int" />
+          <Property Name="ThoiGian" Type="int" />
+          <Property Name="DiemTungCau" Type="int" />
+          <Property Name="MaNganHangCauHoi" Type="int" />
+        </EntityType>
+        <EntityType Name="GiaoViens">
+          <Key>
+            <PropertyRef Name="IdGiaoVien" />
+          </Key>
+          <Property Name="IdGiaoVien" Type="int" Nullable="false" />
+          <Property Name="TenGiaoVien" Type="nvarchar" MaxLength="50" />
+          <Property Name="Usernam" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="HocSinhs">
+          <Key>
+            <PropertyRef Name="IdHocSinh" />
+          </Key>
+          <Property Name="IdHocSinh" Type="int" Nullable="false" />
+          <Property Name="TenHocsinh" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaLop" Type="int" />
+          <Property Name="username" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="LopHocs">
+          <Key>
+            <PropertyRef Name="IdLopHoc" />
+          </Key>
+          <Property Name="IdLopHoc" Type="int" Nullable="false" />
+          <Property Name="MaGv" Type="int" />
+          <Property Name="MaHocSinh" Type="int" />
+        </EntityType>
+        <EntityType Name="MonHoc">
+          <Key>
+            <PropertyRef Name="IDMonHoc" />
+          </Key>
+          <Property Name="IDMonHoc" Type="int" Nullable="false" />
+          <Property Name="TenMonHoc" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaGV" Type="int" />
+        </EntityType>
+        <EntityType Name="NganHangCauHoi">
+          <Key>
+            <PropertyRef Name="IdNganHang" />
+          </Key>
+          <Property Name="IdNganHang" Type="int" Nullable="false" />
+          <Property Name="MaCauHoi" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_BaiThis_DeThis">
+          <End Role="DeThis" Type="Self.DeThis" Multiplicity="0..1" />
+          <End Role="BaiThis" Type="Self.BaiThis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeThis">
+              <PropertyRef Name="IdDeThi" />
+            </Principal>
+            <Dependent Role="BaiThis">
+              <PropertyRef Name="MaDethi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaiThis_HocSinhs">
+          <End Role="HocSinhs" Type="Self.HocSinhs" Multiplicity="0..1" />
+          <End Role="BaiThis" Type="Self.BaiThis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HocSinhs">
+              <PropertyRef Name="IdHocSinh" />
+            </Principal>
+            <Dependent Role="BaiThis">
+              <PropertyRef Name="MaHocsinh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeThis_NganHangCauHoi">
+          <End Role="NganHangCauHoi" Type="Self.NganHangCauHoi" Multiplicity="0..1" />
+          <End Role="DeThis" Type="Self.DeThis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NganHangCauHoi">
+              <PropertyRef Name="IdNganHang" />
+            </Principal>
+            <Dependent Role="DeThis">
+              <PropertyRef Name="MaCauHoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LopHocs_GiaoViens">
+          <End Role="GiaoViens" Type="Self.GiaoViens" Multiplicity="0..1" />
+          <End Role="LopHocs" Type="Self.LopHocs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiaoViens">
+              <PropertyRef Name="IdGiaoVien" />
+            </Principal>
+            <Dependent Role="LopHocs">
+              <PropertyRef Name="MaGv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LopHocs_HocSinhs">
+          <End Role="HocSinhs" Type="Self.HocSinhs" Multiplicity="0..1" />
+          <End Role="LopHocs" Type="Self.LopHocs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HocSinhs">
+              <PropertyRef Name="IdHocSinh" />
+            </Principal>
+            <Dependent Role="LopHocs">
+              <PropertyRef Name="MaHocSinh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MonHoc_GiaoViens">
+          <End Role="GiaoViens" Type="Self.GiaoViens" Multiplicity="0..1" />
+          <End Role="MonHoc" Type="Self.MonHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiaoViens">
+              <PropertyRef Name="IdGiaoVien" />
+            </Principal>
+            <Dependent Role="MonHoc">
+              <PropertyRef Name="MaGV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NganHangCauHoi_CauHois">
+          <End Role="CauHois" Type="Self.CauHois" Multiplicity="0..1" />
+          <End Role="NganHangCauHoi" Type="Self.NganHangCauHoi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CauHois">
+              <PropertyRef Name="IdCauHoi" />
+            </Principal>
+            <Dependent Role="NganHangCauHoi">
+              <PropertyRef Name="MaCauHoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TracNghiemModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BaiThis" EntityType="Self.BaiThis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CauHois" EntityType="Self.CauHois" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeThis" EntityType="Self.DeThis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiaoViens" EntityType="Self.GiaoViens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HocSinhs" EntityType="Self.HocSinhs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LopHocs" EntityType="Self.LopHocs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MonHoc" EntityType="Self.MonHoc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NganHangCauHoi" EntityType="Self.NganHangCauHoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BaiThis_DeThis" Association="Self.FK_BaiThis_DeThis">
+            <End Role="DeThis" EntitySet="DeThis" />
+            <End Role="BaiThis" EntitySet="BaiThis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaiThis_HocSinhs" Association="Self.FK_BaiThis_HocSinhs">
+            <End Role="HocSinhs" EntitySet="HocSinhs" />
+            <End Role="BaiThis" EntitySet="BaiThis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeThis_NganHangCauHoi" Association="Self.FK_DeThis_NganHangCauHoi">
+            <End Role="NganHangCauHoi" EntitySet="NganHangCauHoi" />
+            <End Role="DeThis" EntitySet="DeThis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LopHocs_GiaoViens" Association="Self.FK_LopHocs_GiaoViens">
+            <End Role="GiaoViens" EntitySet="GiaoViens" />
+            <End Role="LopHocs" EntitySet="LopHocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LopHocs_HocSinhs" Association="Self.FK_LopHocs_HocSinhs">
+            <End Role="HocSinhs" EntitySet="HocSinhs" />
+            <End Role="LopHocs" EntitySet="LopHocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MonHoc_GiaoViens" Association="Self.FK_MonHoc_GiaoViens">
+            <End Role="GiaoViens" EntitySet="GiaoViens" />
+            <End Role="MonHoc" EntitySet="MonHoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NganHangCauHoi_CauHois" Association="Self.FK_NganHangCauHoi_CauHois">
+            <End Role="CauHois" EntitySet="CauHois" />
+            <End Role="NganHangCauHoi" EntitySet="NganHangCauHoi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TracNghiemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="IdAdmin" />
+          </Key>
+          <Property Name="IdAdmin" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BaiThi">
+          <Key>
+            <PropertyRef Name="IdBaiThi" />
+          </Key>
+          <Property Name="IdBaiThi" Type="Int32" Nullable="false" />
+          <Property Name="MaDethi" Type="Int32" />
+          <Property Name="MaHocsinh" Type="Int32" />
+          <Property Name="TongDiem" Type="Int32" />
+          <NavigationProperty Name="DeThi" Relationship="Self.FK_BaiThis_DeThis" FromRole="BaiThis" ToRole="DeThis" />
+          <NavigationProperty Name="HocSinh" Relationship="Self.FK_BaiThis_HocSinhs" FromRole="BaiThis" ToRole="HocSinhs" />
+        </EntityType>
+        <EntityType Name="CauHois">
+          <Key>
+            <PropertyRef Name="IdCauHoi" />
+          </Key>
+          <Property Name="IdCauHoi" Type="Int32" Nullable="false" />
+          <Property Name="TittleQuestion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Answer" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="A" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="B" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="D" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaMonHoc" Type="Int32" />
+          <Property Name="MaGV" Type="Int32" />
+          <NavigationProperty Name="NganHangCauHois" Relationship="Self.FK_NganHangCauHoi_CauHois" FromRole="CauHois" ToRole="NganHangCauHoi" />
+        </EntityType>
+        <EntityType Name="DeThi">
+          <Key>
+            <PropertyRef Name="IdDeThi" />
+          </Key>
+          <Property Name="IdDeThi" Type="Int32" Nullable="false" />
+          <Property Name="MaCauHoi" Type="Int32" />
+          <Property Name="ThoiGian" Type="Int32" />
+          <Property Name="DiemTungCau" Type="Int32" />
+          <Property Name="MaNganHangCauHoi" Type="Int32" />
+          <NavigationProperty Name="BaiThis" Relationship="Self.FK_BaiThis_DeThis" FromRole="DeThis" ToRole="BaiThis" />
+          <NavigationProperty Name="NganHangCauHoi" Relationship="Self.FK_DeThis_NganHangCauHoi" FromRole="DeThis" ToRole="NganHangCauHoi" />
+        </EntityType>
+        <EntityType Name="GiaoVien">
+          <Key>
+            <PropertyRef Name="IdGiaoVien" />
+          </Key>
+          <Property Name="IdGiaoVien" Type="Int32" Nullable="false" />
+          <Property Name="TenGiaoVien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Usernam" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="LopHocs" Relationship="Self.FK_LopHocs_GiaoViens" FromRole="GiaoViens" ToRole="LopHocs" />
+          <NavigationProperty Name="MonHocs" Relationship="Self.FK_MonHoc_GiaoViens" FromRole="GiaoViens" ToRole="MonHoc" />
+        </EntityType>
+        <EntityType Name="HocSinh">
+          <Key>
+            <PropertyRef Name="IdHocSinh" />
+          </Key>
+          <Property Name="IdHocSinh" Type="Int32" Nullable="false" />
+          <Property Name="TenHocsinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaLop" Type="Int32" />
+          <Property Name="username" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="BaiThis" Relationship="Self.FK_BaiThis_HocSinhs" FromRole="HocSinhs" ToRole="BaiThis" />
+          <NavigationProperty Name="LopHocs" Relationship="Self.FK_LopHocs_HocSinhs" FromRole="HocSinhs" ToRole="LopHocs" />
+        </EntityType>
+        <EntityType Name="LopHoc">
+          <Key>
+            <PropertyRef Name="IdLopHoc" />
+          </Key>
+          <Property Name="IdLopHoc" Type="Int32" Nullable="false" />
+          <Property Name="MaGv" Type="Int32" />
+          <Property Name="MaHocSinh" Type="Int32" />
+          <NavigationProperty Name="GiaoVien" Relationship="Self.FK_LopHocs_GiaoViens" FromRole="LopHocs" ToRole="GiaoViens" />
+          <NavigationProperty Name="HocSinh" Relationship="Self.FK_LopHocs_HocSinhs" FromRole="LopHocs" ToRole="HocSinhs" />
+        </EntityType>
+        <EntityType Name="MonHoc">
+          <Key>
+            <PropertyRef Name="IDMonHoc" />
+          </Key>
+          <Property Name="IDMonHoc" Type="Int32" Nullable="false" />
+          <Property Name="TenMonHoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaGV" Type="Int32" />
+          <NavigationProperty Name="GiaoVien" Relationship="Self.FK_MonHoc_GiaoViens" FromRole="MonHoc" ToRole="GiaoViens" />
+        </EntityType>
+        <EntityType Name="NganHangCauHoi">
+          <Key>
+            <PropertyRef Name="IdNganHang" />
+          </Key>
+          <Property Name="IdNganHang" Type="Int32" Nullable="false" />
+          <Property Name="MaCauHoi" Type="Int32" />
+          <NavigationProperty Name="CauHois" Relationship="Self.FK_NganHangCauHoi_CauHois" FromRole="NganHangCauHoi" ToRole="CauHois" />
+          <NavigationProperty Name="DeThis" Relationship="Self.FK_DeThis_NganHangCauHoi" FromRole="NganHangCauHoi" ToRole="DeThis" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_BaiThis_DeThis">
+          <End Role="DeThis" Type="Self.DeThi" Multiplicity="0..1" />
+          <End Role="BaiThis" Type="Self.BaiThi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeThis">
+              <PropertyRef Name="IdDeThi" />
+            </Principal>
+            <Dependent Role="BaiThis">
+              <PropertyRef Name="MaDethi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaiThis_HocSinhs">
+          <End Role="HocSinhs" Type="Self.HocSinh" Multiplicity="0..1" />
+          <End Role="BaiThis" Type="Self.BaiThi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HocSinhs">
+              <PropertyRef Name="IdHocSinh" />
+            </Principal>
+            <Dependent Role="BaiThis">
+              <PropertyRef Name="MaHocsinh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NganHangCauHoi_CauHois">
+          <End Role="CauHois" Type="Self.CauHois" Multiplicity="0..1" />
+          <End Role="NganHangCauHoi" Type="Self.NganHangCauHoi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CauHois">
+              <PropertyRef Name="IdCauHoi" />
+            </Principal>
+            <Dependent Role="NganHangCauHoi">
+              <PropertyRef Name="MaCauHoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeThis_NganHangCauHoi">
+          <End Role="NganHangCauHoi" Type="Self.NganHangCauHoi" Multiplicity="0..1" />
+          <End Role="DeThis" Type="Self.DeThi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NganHangCauHoi">
+              <PropertyRef Name="IdNganHang" />
+            </Principal>
+            <Dependent Role="DeThis">
+              <PropertyRef Name="MaCauHoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LopHocs_GiaoViens">
+          <End Role="GiaoViens" Type="Self.GiaoVien" Multiplicity="0..1" />
+          <End Role="LopHocs" Type="Self.LopHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiaoViens">
+              <PropertyRef Name="IdGiaoVien" />
+            </Principal>
+            <Dependent Role="LopHocs">
+              <PropertyRef Name="MaGv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MonHoc_GiaoViens">
+          <End Role="GiaoViens" Type="Self.GiaoVien" Multiplicity="0..1" />
+          <End Role="MonHoc" Type="Self.MonHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiaoViens">
+              <PropertyRef Name="IdGiaoVien" />
+            </Principal>
+            <Dependent Role="MonHoc">
+              <PropertyRef Name="MaGV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LopHocs_HocSinhs">
+          <End Role="HocSinhs" Type="Self.HocSinh" Multiplicity="0..1" />
+          <End Role="LopHocs" Type="Self.LopHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HocSinhs">
+              <PropertyRef Name="IdHocSinh" />
+            </Principal>
+            <Dependent Role="LopHocs">
+              <PropertyRef Name="MaHocSinh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TracNghiemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="BaiThis" EntityType="Self.BaiThi" />
+          <EntitySet Name="CauHois" EntityType="Self.CauHois" />
+          <EntitySet Name="DeThis" EntityType="Self.DeThi" />
+          <EntitySet Name="GiaoViens" EntityType="Self.GiaoVien" />
+          <EntitySet Name="HocSinhs" EntityType="Self.HocSinh" />
+          <EntitySet Name="LopHocs" EntityType="Self.LopHoc" />
+          <EntitySet Name="MonHocs" EntityType="Self.MonHoc" />
+          <EntitySet Name="NganHangCauHois" EntityType="Self.NganHangCauHoi" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_BaiThis_DeThis" Association="Self.FK_BaiThis_DeThis">
+            <End Role="DeThis" EntitySet="DeThis" />
+            <End Role="BaiThis" EntitySet="BaiThis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaiThis_HocSinhs" Association="Self.FK_BaiThis_HocSinhs">
+            <End Role="HocSinhs" EntitySet="HocSinhs" />
+            <End Role="BaiThis" EntitySet="BaiThis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NganHangCauHoi_CauHois" Association="Self.FK_NganHangCauHoi_CauHois">
+            <End Role="CauHois" EntitySet="CauHois" />
+            <End Role="NganHangCauHoi" EntitySet="NganHangCauHois" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeThis_NganHangCauHoi" Association="Self.FK_DeThis_NganHangCauHoi">
+            <End Role="NganHangCauHoi" EntitySet="NganHangCauHois" />
+            <End Role="DeThis" EntitySet="DeThis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LopHocs_GiaoViens" Association="Self.FK_LopHocs_GiaoViens">
+            <End Role="GiaoViens" EntitySet="GiaoViens" />
+            <End Role="LopHocs" EntitySet="LopHocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MonHoc_GiaoViens" Association="Self.FK_MonHoc_GiaoViens">
+            <End Role="GiaoViens" EntitySet="GiaoViens" />
+            <End Role="MonHoc" EntitySet="MonHocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LopHocs_HocSinhs" Association="Self.FK_LopHocs_HocSinhs">
+            <End Role="HocSinhs" EntitySet="HocSinhs" />
+            <End Role="LopHocs" EntitySet="LopHocs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TracNghiemModelStoreContainer" CdmEntityContainer="TracNghiemEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="TracNghiemModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="IdAdmin" ColumnName="IdAdmin" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaiThis">
+            <EntityTypeMapping TypeName="TracNghiemModel.BaiThi">
+              <MappingFragment StoreEntitySet="BaiThis">
+                <ScalarProperty Name="IdBaiThi" ColumnName="IdBaiThi" />
+                <ScalarProperty Name="MaDethi" ColumnName="MaDethi" />
+                <ScalarProperty Name="MaHocsinh" ColumnName="MaHocsinh" />
+                <ScalarProperty Name="TongDiem" ColumnName="TongDiem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CauHois">
+            <EntityTypeMapping TypeName="TracNghiemModel.CauHois">
+              <MappingFragment StoreEntitySet="CauHois">
+                <ScalarProperty Name="IdCauHoi" ColumnName="IdCauHoi" />
+                <ScalarProperty Name="TittleQuestion" ColumnName="TittleQuestion" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="A" ColumnName="A" />
+                <ScalarProperty Name="B" ColumnName="B" />
+                <ScalarProperty Name="C" ColumnName="C" />
+                <ScalarProperty Name="D" ColumnName="D" />
+                <ScalarProperty Name="MaMonHoc" ColumnName="MaMonHoc" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeThis">
+            <EntityTypeMapping TypeName="TracNghiemModel.DeThi">
+              <MappingFragment StoreEntitySet="DeThis">
+                <ScalarProperty Name="IdDeThi" ColumnName="IdDeThi" />
+                <ScalarProperty Name="MaCauHoi" ColumnName="MaCauHoi" />
+                <ScalarProperty Name="ThoiGian" ColumnName="ThoiGian" />
+                <ScalarProperty Name="DiemTungCau" ColumnName="DiemTungCau" />
+                <ScalarProperty Name="MaNganHangCauHoi" ColumnName="MaNganHangCauHoi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiaoViens">
+            <EntityTypeMapping TypeName="TracNghiemModel.GiaoVien">
+              <MappingFragment StoreEntitySet="GiaoViens">
+                <ScalarProperty Name="IdGiaoVien" ColumnName="IdGiaoVien" />
+                <ScalarProperty Name="TenGiaoVien" ColumnName="TenGiaoVien" />
+                <ScalarProperty Name="Usernam" ColumnName="Usernam" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HocSinhs">
+            <EntityTypeMapping TypeName="TracNghiemModel.HocSinh">
+              <MappingFragment StoreEntitySet="HocSinhs">
+                <ScalarProperty Name="IdHocSinh" ColumnName="IdHocSinh" />
+                <ScalarProperty Name="TenHocsinh" ColumnName="TenHocsinh" />
+                <ScalarProperty Name="MaLop" ColumnName="MaLop" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LopHocs">
+            <EntityTypeMapping TypeName="TracNghiemModel.LopHoc">
+              <MappingFragment StoreEntitySet="LopHocs">
+                <ScalarProperty Name="IdLopHoc" ColumnName="IdLopHoc" />
+                <ScalarProperty Name="MaGv" ColumnName="MaGv" />
+                <ScalarProperty Name="MaHocSinh" ColumnName="MaHocSinh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonHocs">
+            <EntityTypeMapping TypeName="TracNghiemModel.MonHoc">
+              <MappingFragment StoreEntitySet="MonHoc">
+                <ScalarProperty Name="IDMonHoc" ColumnName="IDMonHoc" />
+                <ScalarProperty Name="TenMonHoc" ColumnName="TenMonHoc" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NganHangCauHois">
+            <EntityTypeMapping TypeName="TracNghiemModel.NganHangCauHoi">
+              <MappingFragment StoreEntitySet="NganHangCauHoi">
+                <ScalarProperty Name="IdNganHang" ColumnName="IdNganHang" />
+                <ScalarProperty Name="MaCauHoi" ColumnName="MaCauHoi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TracNghiemModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
